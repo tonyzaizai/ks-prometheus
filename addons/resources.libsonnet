@@ -12,6 +12,18 @@
         },
       },
     },
+    alertmanager+: {
+      resources: {
+        requests: {
+          cpu: '20m',
+          memory: '30Mi',
+        },
+        limits: {
+          cpu: '200m',
+          memory: '200Mi',
+        },
+      },
+    },
     thanosRuler+: {
       resources: {
         requests: {

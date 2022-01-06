@@ -68,6 +68,10 @@ local kp = std.mapWithKey(
         labels+: serviceMonitorSelectorLabels,
       },
       [if v2.kind == 'Prometheus' then 'spec']+: {serviceMonitorSelector: {matchLabels: serviceMonitorSelectorLabels}},
+      // set servicemonitor scrape interval to 1m
+      [if v2.kind == 'ServiceMonitor' && 'spec' in v2 then 'spec']+: {
+        [if 'endpoints' in v2.spec then 'endpoints']: std.map(function(ep) ep {interval: '1m'}, v2.spec.endpoints),
+      },
       // Set apiVersion of PodDisruptionBudget to policy/v1beta1 in order to achieve wider compatibility. 
       // PodDisruptionBudget was promoted to policy/v1 starting with k8s 1.21, and the v1beta1 one will be removed in 1.25+, refer to https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md#api-change-2
       [if v2.kind == 'PodDisruptionBudget' then 'apiVersion']: 'policy/v1beta1',
