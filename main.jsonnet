@@ -14,6 +14,15 @@ local kp0 = (import 'kubesphere.libsonnet') +
     values+:: {
       common+:: {
         namespace: 'kubesphere-monitoring-system',
+        images+:: {
+          alertmanager: 'prom/alertmanager:v' + $.values.common.versions.alertmanager,
+          kubeStateMetrics: 'kubesphere/kube-state-metrics:v' + $.values.common.versions.kubeStateMetrics,
+          nodeExporter: 'prom/node-exporter:v' + $.values.common.versions.nodeExporter,
+          prometheus: 'prom/prometheus:v' + $.values.common.versions.prometheus,
+          prometheusOperator: 'kubesphere/prometheus-operator:v' + $.values.common.versions.prometheusOperator,
+          prometheusOperatorReloader: 'kubesphere/prometheus-config-reloader:v' + $.values.common.versions.  prometheusOperator,
+          kubeRbacProxy: 'kubesphere/kube-rbac-proxy:v' + $.values.common.versions.kubeRbacProxy,
+        },
       },
       etcd+:: {
         ips+: [],
