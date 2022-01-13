@@ -1,10 +1,13 @@
 # ks-prometheus
 
-This repo based [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus.git), manages and updates the cluster monitoring stack deployed on top of [KubeSphere](https://github.com/kubesphere/kubesphere.git).
+Inspired by [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus.git), ks-prometheus maintains KubeSphere's customization of the entire Prometheus monitoring stack including prometheus-operator, Prometheus configuration and rules, kube-state-metrics, and node-exporter.
 
 ## Install
 
-Config files provided by default are in [`./manifests`](./manifests) dir and have been tested for compatibility with a specific version of KubeSphere. They may be installed by `kubectl apply -k ./kustomization.yaml` according to your KubeSphere version, but it is strongly recommended that you [enable the monitoring component plugin](https://kubesphere.com.cn/en/docs/quick-start/enable-pluggable-components/) to install them into KubeSphere, beacause the latter is more convenient and contains more adaptive works.
+Config files provided by default are in [`./manifests`](./manifests) dir and have been tested for compatibility with a specific version of KubeSphere. They may be installed by the following command according to your KubeSphere version.  
+```shell
+kubectl apply -k ./kustomization.yaml
+```
 
 ## Custom config files
 
