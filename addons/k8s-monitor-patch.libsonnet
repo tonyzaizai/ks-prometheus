@@ -1,9 +1,11 @@
 {
   kubernetesControlPlane+: {
-    local mixinConfig = super._config.mixin._config,
+    local config = super._config,
+    local mixinConfig = config.mixin._config,
     mixin:: (import './k8s-mixin/mixin.libsonnet') + {
       _config+:: mixinConfig + {
         prometheusSelector: $.prometheus._config.mixin._config.prometheusSelector,
+        kubeProxy: config.kubeProxy,
       },
     },
 

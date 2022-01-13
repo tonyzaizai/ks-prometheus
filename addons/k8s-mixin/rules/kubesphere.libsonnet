@@ -41,7 +41,7 @@
             record: 'namespace:kube_pod_container_resource_requests_memory_bytes:sum',
             expr: |||
               sum by (namespace, label_name) (
-                  sum(kube_pod_container_resource_requests_memory_bytes{%(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
+                  sum(kube_pod_container_resource_requests{resource="memory", %(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
                 * on (namespace, pod)
                   group_left(label_name) kube_pod_labels{%(kubeStateMetricsSelector)s}
               )
@@ -51,7 +51,7 @@
             record: 'namespace:kube_pod_container_resource_requests_cpu_cores:sum',
             expr: |||
               sum by (namespace, label_name) (
-                  sum(kube_pod_container_resource_requests_cpu_cores{%(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
+                  sum(kube_pod_container_resource_requests{resource="cpu", %(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
                 * on (namespace, pod)
                   group_left(label_name) kube_pod_labels{%(kubeStateMetricsSelector)s}
               )
@@ -263,7 +263,7 @@
           {
             record: 'node:pod_capacity:sum',
             expr: |||
-              (sum(kube_node_status_capacity_pods{%(kubeStateMetricsSelector)s}) by (node) * on(node) group_left(host_ip, role) max by(node, host_ip, role) (node_namespace_pod:kube_pod_info:))
+              (sum(kube_node_status_capacity{resource="pods", %(kubeStateMetricsSelector)s}) by (node) * on(node) group_left(host_ip, role) max by(node, host_ip, role) (node_namespace_pod:kube_pod_info:))
             ||| % $._config,
           },
           {
@@ -346,7 +346,7 @@
           {
             record: 'cluster:pod_utilization:ratio',
             expr: |||
-              cluster:pod_running:count / sum(kube_node_status_capacity_pods)
+              cluster:pod_running:count / sum(kube_node_status_capacity{resource="pods", %(kubeStateMetricsSelector)s})
             ||| % $._config,
           },
           {
@@ -381,7 +381,7 @@
           {
             record: 'namespace:pod_abnormal:count',
             expr: |||
-              (count(kube_pod_info{%(kubeStateMetricsSelector)s, node!=""}) by (namespace) - sum(kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Succeeded"}) by (namespace)  - sum(kube_pod_status_ready{%(kubeStateMetricsSelector)s, condition="true"} * on (pod, namespace) kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Running"}) by (namespace) - sum(kube_pod_container_status_waiting_reason{%(kubeStateMetricsSelector)s, reason="ContainerCreating"}) by (namespace)) * on (namespace) group_left(workspace)(kube_namespace_labels{%(kubeStateMetricsSelector)s})
+              (count by(namespace) (kube_pod_info{%(kubeStateMetricsSelector)s} unless on(pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s,phase="Succeeded"} > 0) unless on(pod, namespace) ((kube_pod_status_ready{condition="true",%(kubeStateMetricsSelector)s} > 0) and on(pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s,phase="Running"} > 0)) unless on(pod, namespace) kube_pod_container_status_waiting_reason{%(kubeStateMetricsSelector)s,reason="ContainerCreating"} > 0) or on(namespace) (group by(namespace) (kube_pod_info{%(kubeStateMetricsSelector)s}) * 0)) * on(namespace) group_left(workspace) (kube_namespace_labels{%(kubeStateMetricsSelector)s}) > 0
             ||| % $._config,
           },
           {

@@ -47,12 +47,6 @@
           },
           {
             expr: |||
-              sum(label_replace(etcd_debugging_mvcc_db_total_size_in_bytes{%(etcd_selector)s},"node", "$1", "%(etcd_instance_labels)s", "(.*):.*")) by (node)
-            ||| % {etcd_selector: $._config.etcd_selector, etcd_instance_labels: $._config.etcd_instance_labels},
-            record: 'etcd:etcd_debugging_mvcc_db_total_size:sum',
-          },
-          {
-            expr: |||
               sum(label_replace(etcd_mvcc_db_total_size_in_bytes{%(etcd_selector)s},"node", "$1", "%(etcd_instance_labels)s", "(.*):.*")) by (node)
             ||| % {etcd_selector: $._config.etcd_selector, etcd_instance_labels: $._config.etcd_instance_labels},
             record: 'etcd:etcd_mvcc_db_total_size:sum',
