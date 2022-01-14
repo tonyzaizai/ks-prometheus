@@ -2,5 +2,6 @@
   _config+:: {
     kubeCoreDNSSelector: 'job="coredns"',
     prometheusSelector: 'job="prometheus"',
+    kubeProxy: false,
   },
 }
