@@ -5,20 +5,6 @@
       _config+:: mixinConfig,
     },
 
-    local ne = self,
-    daemonset+: {
-      spec+: {
-        template+: {
-          spec+: {
-            containers: std.map(
-              function(c)
-                if c.name != ne._config.name then c
-                else c {args+: ['--collector.processes']},
-            super.containers),
-          },
-        },
-      },
-    },
     serviceMonitor+: {
       spec+: {
         endpoints: [{
@@ -65,7 +51,6 @@
               'node_filesystem_readonly',
               'node_load.+',
               'node_timex_offset_seconds',
-              'node_processes_.+',
             ]),
           }],
         },],
