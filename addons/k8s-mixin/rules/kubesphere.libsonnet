@@ -38,7 +38,7 @@
             ||| % $._config,
           },
           {
-            record: 'namespace:kube_pod_container_resource_requests_memory_bytes:sum',
+            record: 'namespace_memory:kube_pod_container_resource_requests:sum',
             expr: |||
               sum by (namespace, label_name) (
                   sum(kube_pod_container_resource_requests{resource="memory", %(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
@@ -48,7 +48,7 @@
             ||| % $._config,
           },
           {
-            record: 'namespace:kube_pod_container_resource_requests_cpu_cores:sum',
+            record: 'namespace_cpu:kube_pod_container_resource_requests:sum',
             expr: |||
               sum by (namespace, label_name) (
                   sum(kube_pod_container_resource_requests{resource="cpu", %(kubeStateMetricsSelector)s} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"Pending|Running"} == 1)) by (namespace, pod)
