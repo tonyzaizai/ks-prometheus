@@ -76,7 +76,7 @@ local kp = std.mapWithKey(
       [if v2.kind == 'ServiceMonitor' then 'metadata']+: {
         labels+: serviceMonitorSelectorLabels,
       },
-      [if v2.kind == 'Prometheus' then 'spec']+: {serviceMonitorSelector: {matchLabels: serviceMonitorSelectorLabels}},
+      // [if v2.kind == 'Prometheus' then 'spec']+: {serviceMonitorSelector: {matchLabels: serviceMonitorSelectorLabels}},
       // set servicemonitor scrape interval to 1m
       [if v2.kind == 'ServiceMonitor' && 'spec' in v2 then 'spec']+: {
         [if 'endpoints' in v2.spec then 'endpoints']: std.map(function(ep) ep {interval: '1m'}, v2.spec.endpoints),
