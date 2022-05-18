@@ -263,7 +263,7 @@
           {
             record: 'node:pod_capacity:sum',
             expr: |||
-              (sum(kube_node_status_capacity{resource="pods", %(kubeStateMetricsSelector)s}) by (node) * on(node) group_left(host_ip, role) max by(node, host_ip, role) (node_namespace_pod:kube_pod_info:))
+              (sum(kube_node_status_capacity{resource="pods", %(kubeStateMetricsSelector)s}) by (node) * on(node) group_left(host_ip, role) max by(node, host_ip, role) (node_namespace_pod:kube_pod_info:{node!="",host_ip!=""}))
             ||| % $._config,
           },
           {
@@ -287,13 +287,13 @@
           {
             record: 'node:pod_abnormal:count',
             expr: |||
-              count(node_namespace_pod:kube_pod_info: unless on (pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Succeeded"}>0) unless on (pod, namespace) ((kube_pod_status_ready{%(kubeStateMetricsSelector)s, condition="true"}>0) and on (pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Running"}>0)) unless on (pod, namespace) kube_pod_container_status_waiting_reason{%(kubeStateMetricsSelector)s, reason="ContainerCreating"}>0) by (node, host_ip, role)
+              count(node_namespace_pod:kube_pod_info:{node!="",host_ip!=""} unless on (pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Succeeded"}>0) unless on (pod, namespace) ((kube_pod_status_ready{%(kubeStateMetricsSelector)s, condition="true"}>0) and on (pod, namespace) (kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Running"}>0)) unless on (pod, namespace) kube_pod_container_status_waiting_reason{%(kubeStateMetricsSelector)s, reason="ContainerCreating"}>0) by (node, host_ip, role)
             ||| % $._config,
           },
           {
             record: 'node:pod_abnormal:ratio',
             expr: |||
-              node:pod_abnormal:count / count(node_namespace_pod:kube_pod_info: unless on (pod, namespace) kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Succeeded"}>0) by (node, host_ip, role)
+              node:pod_abnormal:count / count(node_namespace_pod:kube_pod_info:{node!="",host_ip!=""} unless on (pod, namespace) kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase="Succeeded"}>0) by (node, host_ip, role)
             ||| % $._config,
           },
           {
@@ -471,7 +471,7 @@
           {
             record: 'namespace:pvc_bytes_total:sum',
             expr: |||
-              sum(label_replace(label_join(kube_pod_spec_volumes_persistentvolumeclaims_info * on (pod, namespace) group_left(owner_kind,owner_name)label_replace(label_join(label_replace(label_replace(kube_pod_owner{%(kubeStateMetricsSelector)s},"owner_kind","Deployment","owner_kind","ReplicaSet"),"owner_kind","Pod","owner_kind","<none>"),"tmp",":","owner_name","pod"),"owner_name","$1","tmp","<none>:(.*)"),"workload",":","owner_kind","owner_name"),"workload","$1","workload","(Deployment:.+)-(.+)")) by (namespace, workload, pod, persistentvolumeclaim)* on (persistentvolumeclaim) group_left (node) kubelet_volume_stats_capacity_bytes * on(namespace) group_left(workspace) kube_namespace_labels{%(kubeStateMetricsSelector)s}
+              sum(label_replace(label_join(kube_pod_spec_volumes_persistentvolumeclaims_info * on (pod, namespace) group_left(owner_kind,owner_name)label_replace(label_join(label_replace(label_replace(kube_pod_owner{%(kubeStateMetricsSelector)s},"owner_kind","Deployment","owner_kind","ReplicaSet"),"owner_kind","Pod","owner_kind","<none>"),"tmp",":","owner_name","pod"),"owner_name","$1","tmp","<none>:(.*)"),"workload",":","owner_kind","owner_name"),"workload","$1","workload","(Deployment:.+)-(.+)")) by (namespace, workload, pod, persistentvolumeclaim)* on(namespace, pod) group_left(node) kube_pod_info{job="kube-state-metrics"}* on (node, persistentvolumeclaim, namespace) group_left kubelet_volume_stats_capacity_bytes * on(namespace) group_left(workspace) kube_namespace_labels{%(kubeStateMetricsSelector)s}
             ||| % $._config,
           },
         ],
