@@ -10,6 +10,7 @@ local kp0 = (import 'kubesphere.libsonnet') +
   (import './addons/resources.libsonnet') +
   (import './addons/storages.libsonnet') +
   (import './addons/grafana-patch.libsonnet') +
+  (import './addons/prom-op-patch.libsonnet') +
   {
     values+:: {
       common+:: {
