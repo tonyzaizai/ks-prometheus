@@ -2,7 +2,7 @@
   "alertmanager": "0.23.0",
   "blackboxExporter": "0.19.0",
   "grafana": "8.3.3",
-  "kubeStateMetrics": "2.3.0",
+  "kubeStateMetrics": "2.5.0",
   "nodeExporter": "1.3.1",
   "prometheus": "2.34.0",
   "prometheusAdapter": "0.9.1",
