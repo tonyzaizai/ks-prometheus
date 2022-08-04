@@ -114,6 +114,7 @@ local kustomizationResourceFile(name) = './manifests/' + name + '.yaml';
 local kustomization = {
   apiVersion: 'kustomize.config.k8s.io/v1beta1',
   kind: 'Kustomization',
+  namespace: kp.kubePrometheus.namespace.metadata.name,
   resources: std.map(kustomizationResourceFile, std.objectFields(manifests)),
 };
 
