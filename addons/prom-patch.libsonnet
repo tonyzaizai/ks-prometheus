@@ -5,6 +5,12 @@
       _config+:: mixinConfig,
     },
 
+    prometheus+: {
+      spec+: {
+        evaluationInterval: '1m',
+      },
+    },
+
     clusterRole+: {
       rules: [
         {
