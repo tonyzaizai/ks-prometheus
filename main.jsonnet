@@ -52,11 +52,11 @@ local kp0 = (import 'kubesphere.libsonnet') +
         alertmanagersUrl: ['dnssrv+http://alertmanager-operated.' + self.namespace + '.svc:9093'],
         queryEndpoints: ['prometheus-operated.' + self.namespace + '.svc:9090'],
         ruleSelector: {
-          matchExpressions: {
+          matchExpressions: [{
             key: 'alerting.kubesphere.io/rule_level',
             operator: 'In',
             values: ['namespace','cluster','global'],
-          },
+          }],
         },
       },
     },
