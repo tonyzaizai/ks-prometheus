@@ -11,10 +11,12 @@ local kp0 = (import 'kubesphere.libsonnet') +
   (import './addons/storages.libsonnet') +
   (import './addons/grafana-patch.libsonnet') +
   (import './addons/prom-op-patch.libsonnet') +
+  (import './addons/mixin-patch.libsonnet') + 
   {
     values+:: {
       common+:: {
         namespace: 'kubesphere-monitoring-system',
+        // runbookURLPrefix: 'https://runbooks.prometheus-operator.dev/runbooks/',
         images+:: {
           alertmanager: 'prom/alertmanager:v' + $.values.common.versions.alertmanager,
           kubeStateMetrics: 'kubesphere/kube-state-metrics:v' + $.values.common.versions.kubeStateMetrics,
@@ -50,9 +52,10 @@ local kp0 = (import 'kubesphere.libsonnet') +
         alertmanagersUrl: ['dnssrv+http://alertmanager-operated.' + self.namespace + '.svc:9093'],
         queryEndpoints: ['prometheus-operated.' + self.namespace + '.svc:9090'],
         ruleSelector: {
-          matchLabels: {
-            'role': 'alert-rules',
-            'thanos-ruler': 'kubesphere',
+          matchExpressions: {
+            key: 'alerting.kubesphere.io/rule_level',
+            operator: 'In',
+            values: ['namespace','cluster','global'],
           },
         },
       },
@@ -85,7 +88,7 @@ local kp = std.mapWithKey(
       // Set apiVersion of PodDisruptionBudget to policy/v1beta1 in order to achieve wider compatibility. 
       // PodDisruptionBudget was promoted to policy/v1 starting with k8s 1.21, and the v1beta1 one will be removed in 1.25+, refer to https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md#api-change-2
       [if v2.kind == 'PodDisruptionBudget' then 'apiVersion']: 'policy/v1beta1',
-    }, v1),
+    } else {}, v1),
 kp0);
 
 // organize configuration output
@@ -98,7 +101,7 @@ local manifests =
 // serviceMonitor and prometheusRule are separated so that they can be created after the CRDs are ready
 { 'prometheus-operator/prometheus-operator-serviceMonitor': kp.prometheusOperator.serviceMonitor } +
 { 'prometheus-operator/prometheus-operator-prometheusRule': kp.prometheusOperator.prometheusRule } +
-{ 'kube-prometheus/kube-prometheus-prometheusRule': kp.kubePrometheus.prometheusRule } +
+{ [if kp.kubePrometheus[name]['kind'] != 'Namespace' then 'kube-prometheus/kube-prometheus-' + name]: kp.kubePrometheus[name] for name in std.objectFields(kp.kubePrometheus) } +
 { ['alertmanager/alertmanager-' + name]: kp.alertmanager[name] for name in std.objectFields(kp.alertmanager) } +
 // { ['blackbox-exporter/blackbox-exporter-' + name]: kp.blackboxExporter[name] for name in std.objectFields(kp.blackboxExporter) } +
 { ['grafana/grafana-' + name]: kp.grafana[name] for name in std.objectFields(kp.grafana) } +

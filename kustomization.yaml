@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kubesphere-monitoring-system
 resources:
+- ./manifests/alertmanager/alertmanager-alertRuleGroups.yaml
 - ./manifests/alertmanager/alertmanager-alertmanager.yaml
 - ./manifests/alertmanager/alertmanager-podDisruptionBudget.yaml
 - ./manifests/alertmanager/alertmanager-prometheusRule.yaml
@@ -9,6 +10,7 @@ resources:
 - ./manifests/alertmanager/alertmanager-service.yaml
 - ./manifests/alertmanager/alertmanager-serviceAccount.yaml
 - ./manifests/alertmanager/alertmanager-serviceMonitor.yaml
+- ./manifests/etcd/prometheus-alertRuleGroupsEtcd.yaml
 - ./manifests/etcd/prometheus-endpointsEtcd.yaml
 - ./manifests/etcd/prometheus-rulesEtcd.yaml
 - ./manifests/etcd/prometheus-secretEtcdCerts.yaml
@@ -23,7 +25,9 @@ resources:
 - ./manifests/grafana/grafana-serviceAccount.yaml
 - ./manifests/grafana/grafana-serviceMonitor.yaml
 - ./manifests/grafana/grafana-storage.yaml
+- ./manifests/kube-prometheus/kube-prometheus-alertRuleGroups.yaml
 - ./manifests/kube-prometheus/kube-prometheus-prometheusRule.yaml
+- ./manifests/kube-state-metrics/kube-state-metrics-alertRuleGroups.yaml
 - ./manifests/kube-state-metrics/kube-state-metrics-clusterRole.yaml
 - ./manifests/kube-state-metrics/kube-state-metrics-clusterRoleBinding.yaml
 - ./manifests/kube-state-metrics/kube-state-metrics-deployment.yaml
@@ -31,6 +35,7 @@ resources:
 - ./manifests/kube-state-metrics/kube-state-metrics-service.yaml
 - ./manifests/kube-state-metrics/kube-state-metrics-serviceAccount.yaml
 - ./manifests/kube-state-metrics/kube-state-metrics-serviceMonitor.yaml
+- ./manifests/kubernetes/kubernetes-alertRuleGroups.yaml
 - ./manifests/kubernetes/kubernetes-prometheusRule.yaml
 - ./manifests/kubernetes/kubernetes-serviceKubeControllerManager.yaml
 - ./manifests/kubernetes/kubernetes-serviceKubeScheduler.yaml
@@ -39,6 +44,7 @@ resources:
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubeControllerManager.yaml
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubeScheduler.yaml
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubelet.yaml
+- ./manifests/node-exporter/node-exporter-alertRuleGroups.yaml
 - ./manifests/node-exporter/node-exporter-clusterRole.yaml
 - ./manifests/node-exporter/node-exporter-clusterRoleBinding.yaml
 - ./manifests/node-exporter/node-exporter-daemonset.yaml
@@ -54,6 +60,7 @@ resources:
 - ./manifests/prometheus-operator/prometheus-operator-0prometheusruleCustomResourceDefinition.yaml
 - ./manifests/prometheus-operator/prometheus-operator-0servicemonitorCustomResourceDefinition.yaml
 - ./manifests/prometheus-operator/prometheus-operator-0thanosrulerCustomResourceDefinition.yaml
+- ./manifests/prometheus-operator/prometheus-operator-alertRuleGroups.yaml
 - ./manifests/prometheus-operator/prometheus-operator-clusterRole.yaml
 - ./manifests/prometheus-operator/prometheus-operator-clusterRoleBinding.yaml
 - ./manifests/prometheus-operator/prometheus-operator-deployment.yaml
@@ -61,6 +68,7 @@ resources:
 - ./manifests/prometheus-operator/prometheus-operator-service.yaml
 - ./manifests/prometheus-operator/prometheus-operator-serviceAccount.yaml
 - ./manifests/prometheus-operator/prometheus-operator-serviceMonitor.yaml
+- ./manifests/prometheus/prometheus-alertRuleGroups.yaml
 - ./manifests/prometheus/prometheus-clusterRole.yaml
 - ./manifests/prometheus/prometheus-clusterRoleBinding.yaml
 - ./manifests/prometheus/prometheus-podDisruptionBudget.yaml
@@ -71,6 +79,7 @@ resources:
 - ./manifests/prometheus/prometheus-service.yaml
 - ./manifests/prometheus/prometheus-serviceAccount.yaml
 - ./manifests/prometheus/prometheus-serviceMonitor.yaml
+- ./manifests/thanos-ruler/thanos-ruler-alertRuleGroups.yaml
 - ./manifests/thanos-ruler/thanos-ruler-podDisruptionBudget.yaml
 - ./manifests/thanos-ruler/thanos-ruler-prometheusRule.yaml
 - ./manifests/thanos-ruler/thanos-ruler-service.yaml

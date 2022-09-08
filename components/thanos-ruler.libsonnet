@@ -21,6 +21,7 @@ local defaults = {
     for labelName in std.objectFields(defaults.commonLabels)
     if !std.setMember(labelName, ['app.kubernetes.io/version'])
   },
+  ruleNamespaceSelector: null,
   ruleSelector: {},
   mixin: {
     ruleLabels: {},
@@ -79,7 +80,7 @@ function(params) {
       podMetadata: {
         labels: tr._config.commonLabels,
       },
-      ruleNamespaceSelector: {},
+      ruleNamespaceSelector: tr._config.ruleNamespaceSelector,
       ruleSelector: tr._config.ruleSelector,
       resources: tr._config.resources,
       alertmanagersUrl: tr._config.alertmanagersUrl,
