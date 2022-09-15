@@ -94,4 +94,8 @@ local lower(x) =
         mixin+:: {prometheusAlerts+:: {groups: []}},
         alertRuleGroups: groupResourcesList(super.mixin.prometheusAlerts, "thanos"),
     },
+    kubesphere+: {
+        mixin+:: {prometheusAlerts+:: {groups: []}},
+        alertRuleGroups: groupResourcesList(super.mixin.prometheusAlerts, "kubesphere"),
+    },
 }

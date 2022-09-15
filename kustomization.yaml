@@ -44,6 +44,9 @@ resources:
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubeControllerManager.yaml
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubeScheduler.yaml
 - ./manifests/kubernetes/kubernetes-serviceMonitorKubelet.yaml
+- ./manifests/kubesphere/kubesphere-alertRuleGroups.yaml
+- ./manifests/kubesphere/kubesphere-serviceMonitorKsApiserver.yaml
+- ./manifests/kubesphere/kubesphere-serviceMonitorKsControllerManager.yaml
 - ./manifests/node-exporter/node-exporter-alertRuleGroups.yaml
 - ./manifests/node-exporter/node-exporter-clusterRole.yaml
 - ./manifests/node-exporter/node-exporter-clusterRoleBinding.yaml
