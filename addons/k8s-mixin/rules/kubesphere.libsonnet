@@ -17,9 +17,10 @@
         name: 'k8s.rules',
         rules: [
           {
+            // Use irate instead of offset in the expression, but the record name remains the same.
             record: 'namespace:container_cpu_usage_seconds_total:sum_rate',
             expr: |||
-              sum((container_cpu_usage_seconds_total{%(kubeletSelector)s, image!="", container!=""} * on(namespace) group_left(workspace) kube_namespace_labels{%(kubeStateMetricsSelector)s} - container_cpu_usage_seconds_total{%(kubeletSelector)s, image!="", container!=""} offset 90s * on(namespace) group_left(workspace) kube_namespace_labels{%(kubeStateMetricsSelector)s}) / 90) by (namespace, workspace)
+              sum (irate(container_cpu_usage_seconds_total{%(kubeletSelector)s, image!="", container!=""}[5m]) * on(namespace) group_left(workspace) kube_namespace_labels{%(kubeStateMetricsSelector)s}) by (namespace, workspace)
               or on(namespace, workspace) max by(namespace, workspace) (kube_namespace_labels * 0)
             ||| % $._config,
           },
@@ -67,6 +68,18 @@
             record: 'node_cpu_used_seconds_total',
             expr: |||
               sum (node_cpu_seconds_total{%(nodeExporterSelector)s, mode=~"user|nice|system|iowait|irq|softirq"}) by (cpu, instance, job, namespace, pod)
+            ||| % $._config,
+          },
+          {
+            // This rule results in the tuples (namespace,pod,node,owner_name,owner_kind,qos) => 1;
+            // It is used to associate the owner, qos, and other relationships of the Pod.
+            record: 'qos_owner_node:kube_pod_info:',
+            expr: |||
+              max by (namespace,pod,node,owner_name,owner_kind,qos)(kube_pod_info{%(kubeStateMetricsSelector)s}
+                * on (namespace, pod) group_left(owner_kind, owner_name) kube_pod_owner{%(kubeStateMetricsSelector)s}
+                * on (namespace,pod) group_left(qos) max by (namespace,pod,qos)
+                  ((label_replace(container_memory_working_set_bytes{%(kubeletSelector)s, container="",pod!="",id=~".*(burstable|besteffort).*"},"qos","$1","id",".*(burstable|besteffort).*")
+                  or label_replace(container_memory_working_set_bytes{%(kubeletSelector)s, container="",pod!="",id!~".*(burstable|besteffort).*"},"qos","guaranteed","id",".*")) > bool 0))
             ||| % $._config,
           },
           {

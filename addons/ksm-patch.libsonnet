@@ -15,7 +15,6 @@
             containers: addArgs(
               [|||
                 --metric-denylist=
-                kube_pod_container_status_.*terminated_reason,
                 kube_.+_version,
                 kube_.+_created,
                 kube_deployment_(spec_paused|spec_strategy_rollingupdate_.+),
