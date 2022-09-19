@@ -13,6 +13,17 @@
      mixinEtcd::
        (import './etcd-mixin/mixin.libsonnet') + {
          _config+:: $.etcd.mixin._config,
+         prometheusAlerts+:: {
+          groups: std.map(function(g) 
+            g + {
+              rules: std.filterMap(
+                // Temporarily ignore these two rules, because of which contains 
+                // the last_over_time function not compatible with prometheus dependency version of KubeSphere 3.3
+                function(r) r.alert != 'etcdDatabaseQuotaLowSpace' && r.alert != 'etcdDatabaseHighFragmentationRatio',
+                function(r) r, super.rules)
+            }, 
+          super.groups)
+         },
        },
      rulesEtcd: {
        apiVersion: 'monitoring.coreos.com/v1',
