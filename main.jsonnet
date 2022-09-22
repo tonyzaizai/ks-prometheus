@@ -91,6 +91,12 @@ local kp = std.mapWithKey(
     } else {}, v1),
 kp0);
 
+local isEmptyPrometheusRule(prometheusRule) = 
+  if prometheusRule['kind'] != 'PrometheusRule' then false
+  else
+    if 'spec' in prometheusRule && 'groups' in prometheusRule.spec && std.length(prometheusRule.spec.groups) > 0 then false
+    else true;
+
 // organize configuration output
 local manifests =
 // { 'namespace/0namespace-namespace': kp.kubePrometheus.namespace } +
@@ -111,7 +117,8 @@ local manifests =
 { [if std.length(std.findSubstr('Etcd', name) + std.findSubstr('etcd', name)) > 0 then 'etcd/prometheus-' + name else 'prometheus/prometheus-' + name]:
     kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 // { ['prometheus-adapter/prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
-{ ['thanos-ruler/thanos-ruler-' + name]: kp.thanosRuler[name] for name in std.objectFields(kp.thanosRuler)};
+{ ['thanos-ruler/thanos-ruler-' + name]: kp.thanosRuler[name] for name in std.objectFields(kp.thanosRuler)} +
+{ [if !isEmptyPrometheusRule(kp.kubesphere[name]) then 'kubesphere/kubesphere-' + name]: kp.kubesphere[name] for name in std.objectFields(kp.kubesphere)};
 
 local kustomizationResourceFile(name) = './manifests/' + name + '.yaml';
 local kustomization = {

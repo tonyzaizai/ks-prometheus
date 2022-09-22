@@ -12,6 +12,11 @@
       name: 'k8s',
       mixin+: { ruleLabels: $.values.common.ruleLabels },
     },
+    kubesphere: {
+      namespace: $.values.common.namespace,
+      mixin+: { ruleLabels: $.values.common.ruleLabels },
+    },
   },
   thanosRuler: (import './components/thanos-ruler.libsonnet')($.values.thanosRuler),
+  kubesphere: (import './components/kubesphere.libsonnet')($.values.kubesphere),
 }
