@@ -1,4 +1,13 @@
-(import 'kubernetes-mixin/alerts/alerts.libsonnet') + {
+(import 'apps_alerts.libsonnet') +
+(import 'resource_alerts.libsonnet') +
+(import 'storage_alerts.libsonnet') +
+(import 'system_alerts.libsonnet') +
+(import 'kube_apiserver.libsonnet') +
+(import 'kubelet.libsonnet') +
+(import 'kubernetes-mixin/alerts/kube_scheduler.libsonnet') +
+(import 'kubernetes-mixin/alerts/kube_controller_manager.libsonnet') +
+(import 'kubernetes-mixin/alerts/kube_proxy.libsonnet') +
+(import 'kubernetes-mixin/lib/add-runbook-links.libsonnet') + {
     prometheusAlerts+: {
         groups: std.filterMap(
             function(g) $._config.kubeProxy || g.name != 'kubernetes-system-kube-proxy', 

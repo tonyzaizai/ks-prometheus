@@ -1,9 +1,10 @@
 {
   prometheus+: {
     local mixinConfig = super._config.mixin._config,
-    mixin:: (import './prom-mixin/mixin.libsonnet') + {
-      _config+:: mixinConfig,
-    },
+    mixin:: (import './prom-mixin/mixin.libsonnet') + 
+      (import 'github.com/kubernetes-monitoring/kubernetes-mixin/lib/add-runbook-links.libsonnet') {
+        _config+:: mixinConfig,
+      },
 
     prometheus+: {
       spec+: {

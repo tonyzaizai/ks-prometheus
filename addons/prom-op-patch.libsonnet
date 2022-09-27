@@ -18,7 +18,13 @@
         a,
 
   prometheusOperator+: {
-      local promcrd = super['0prometheusCustomResourceDefinition'],
-      '0prometheusCustomResourceDefinition': $.pruneCrd(promcrd, "description"), 
+    local mixinConfig = super._config.mixin._config,
+    mixin:: (import './prom-op-mixin/mixin.libsonnet') + 
+      (import 'github.com/kubernetes-monitoring/kubernetes-mixin/lib/add-runbook-links.libsonnet') {
+        _config+:: mixinConfig,
+      },
+
+    local promcrd = super['0prometheusCustomResourceDefinition'],
+    '0prometheusCustomResourceDefinition': $.pruneCrd(promcrd, "description"), 
   },
 }

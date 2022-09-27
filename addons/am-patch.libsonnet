@@ -91,4 +91,11 @@
       },
     },
   },
+  alertmanager+: {
+    mixin+:: {
+      _config+:: {
+        alertmanagerClusterLabels: 'cluster,namespace,service',
+      },
+    },
+  },
 }

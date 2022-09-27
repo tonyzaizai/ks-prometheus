@@ -1,8 +1,9 @@
 {
   nodeExporter+: {
-    local mixinConfig = super._config.mixin._config,
-    mixin:: (import './node-exporter-mixin/mixin.libsonnet') + {
-      _config+:: mixinConfig,
+    mixin+:: {
+        prometheusRules: { // do not use recording rules
+          groups: [],
+        },
     },
 
     serviceMonitor+: {
