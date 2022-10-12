@@ -19,7 +19,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
             message: '99th percentile of requests is {{ $value }}s on ks-apiserver instance {{ $labels.instance }} for {{ $labels.verb }} {{ $labels.resource }}.{{ $labels.group }}/{{ $labels.version }}'
           },
           expr: |||
-            histogram_quantile(0.99, sum by(instance,group,resource,verb,version,le) (rate(ks_server_request_duration_seconds_bucket{group!="terminal.kubesphere.io", %(ksApiserverSelector)s}[5m]))) > 5
+            histogram_quantile(0.99, sum by(instance,group,resource,verb,version,le,%(clusterLabel)s) (rate(ks_server_request_duration_seconds_bucket{group!="terminal.kubesphere.io", %(ksApiserverSelector)s}[5m]))) > 5
           ||| % $._config,
           'for': '10m',
           labels: {

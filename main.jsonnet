@@ -2,10 +2,12 @@
 local kp0 = (import 'kubesphere.libsonnet') +
   (import './addons/static-etcd.libsonnet') +
   (import './addons/k8s-monitor-patch.libsonnet') +
-  (import './addons/am-config.libsonnet') +
+  (import './addons/am-patch.libsonnet') +
   (import './addons/node-exporter-patch.libsonnet') +
   (import './addons/ksm-patch.libsonnet') +
   (import './addons/prom-patch.libsonnet') +
+  (import './addons/prom-op-patch.libsonnet') +
+  (import './addons/kube-prom-patch.libsonnet') +
   (import './addons/affinity.libsonnet') +
   (import './addons/resources.libsonnet') +
   (import './addons/storages.libsonnet') +

@@ -23,10 +23,17 @@ local defaults = {
   },
   ruleNamespaceSelector: null,
   ruleSelector: {},
-  mixin: {
+  mixin:: {
     ruleLabels: {},
     _config: {
-      thanosSelector: 'job="thanos-ruler-' + defaults.name + '",namespace="' + defaults.namespace + '"',
+      thanos: {
+        targetGroups: {
+          namespace: defaults.namespace,
+        },
+        rule: {
+          selector: 'job="thanos-ruler-' + defaults.name + '",namespace="' + defaults.namespace + '"',
+        },
+      }
     },
   },
   alertmanagersUrl: [],
@@ -44,9 +51,10 @@ function(params) {
     (import 'github.com/thanos-io/thanos/mixin/alerts/rule.libsonnet') +
     (import 'github.com/thanos-io/thanos/mixin/alerts/add_runbook_links.libsonnet') + {
       _config+:: tr._config.mixin._config,
-      targetGroups: {},
+      targetGroups+: tr._config.mixin._config.thanos.targetGroups,
       rule+: {
-        selector: tr._config.mixin._config.thanosSelector,
+        selector: tr._config.mixin._config.thanos.rule.selector,
+        dimensions: 'cluster, ' + super.dimensions,
       },
     },
 
