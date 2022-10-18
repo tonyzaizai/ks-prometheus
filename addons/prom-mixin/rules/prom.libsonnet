@@ -11,13 +11,13 @@
           {
             record: 'prometheus:up:sum',
             expr: |||
-              sum(up{%(prometheusSelector)s} == 1)
+              sum by(%(kubeClusterLabel)s) (up{%(prometheusSelector)s} == 1)
             ||| % $._config,
           },
           {
             record: 'prometheus:prometheus_tsdb_head_samples_appended:sum_rate',
             expr: |||
-              sum(rate(prometheus_tsdb_head_samples_appended_total{%(prometheusSelector)s} [5m])) by (job, pod)
+              sum(rate(prometheus_tsdb_head_samples_appended_total{%(prometheusSelector)s} [5m])) by (job, pod, %(kubeClusterLabel)s)
             ||| % $._config,
           },
         ],
