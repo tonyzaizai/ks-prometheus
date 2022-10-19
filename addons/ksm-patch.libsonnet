@@ -38,7 +38,27 @@
                 kube_replicationcontroller_.+,
                 kube_node_info,
                 kube_(hpa|replicaset|replicationcontroller)_.+_generation
+                kube_clusterrole_info
               |||, 
+              |||
+                --custom-resource-state-config=spec:
+                  resources:
+                    - groupVersionKind:
+                        group: iam.kubesphere.io
+                        kind: "User"
+                        version: "v1alpha2"
+                      metricNamePrefix: ""
+                      labelsFromPath:
+                        user: [metadata, name]
+                      metrics:
+                        - name: "kubesphere_user_info"
+                          help: "information about iam.kubesphere.io/user."
+                          each:
+                            type: Info
+                            info: {}
+              |||,
+              '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments,clusterroles,users',
+              '--metric-annotations-allowlist=clusterroles=[kubesphere.io/creator]',
               '--metric-labels-allowlist=namespaces=[kubesphere.io/workspace]'],
               'kube-state-metrics',
               super.containers
@@ -47,6 +67,133 @@
         },
       },
     },
+
+    clusterRole+: {
+      rules: [
+      {
+        apiGroups: [''],
+        resources: [
+          'configmaps',
+          'secrets',
+          'nodes',
+          'pods',
+          'services',
+          'serviceaccounts',
+          'resourcequotas',
+          'replicationcontrollers',
+          'limitranges',
+          'persistentvolumeclaims',
+          'persistentvolumes',
+          'namespaces',
+          'endpoints',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['apps'],
+        resources: [
+          'statefulsets',
+          'daemonsets',
+          'deployments',
+          'replicasets',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['batch'],
+        resources: [
+          'cronjobs',
+          'jobs',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['autoscaling'],
+        resources: [
+          'horizontalpodautoscalers',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['authentication.k8s.io'],
+        resources: [
+          'tokenreviews',
+        ],
+        verbs: ['create'],
+      },
+      {
+        apiGroups: ['authorization.k8s.io'],
+        resources: [
+          'subjectaccessreviews',
+        ],
+        verbs: ['create'],
+      },
+      {
+        apiGroups: ['policy'],
+        resources: [
+          'poddisruptionbudgets',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['certificates.k8s.io'],
+        resources: [
+          'certificatesigningrequests',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['storage.k8s.io'],
+        resources: [
+          'storageclasses',
+          'volumeattachments',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['admissionregistration.k8s.io'],
+        resources: [
+          'mutatingwebhookconfigurations',
+          'validatingwebhookconfigurations',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['networking.k8s.io'],
+        resources: [
+          'networkpolicies',
+          'ingresses',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['coordination.k8s.io'],
+        resources: [
+          'leases',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['rbac.authorization.k8s.io'],
+        resources: [
+          'clusterrolebindings',
+          'clusterroles',
+          'rolebindings',
+          'roles',
+        ],
+        verbs: ['list', 'watch'],
+      },
+      {
+        apiGroups: ['iam.kubesphere.io'],
+        resources: [
+          'users',
+        ],
+        verbs: ['list', 'watch'],
+      },
+     ]
+    },
+
+    
     serviceMonitor+: {
       spec+: {
         endpoints: std.map(
