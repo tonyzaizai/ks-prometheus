@@ -27,6 +27,7 @@ local kp0 = (import 'kubesphere.libsonnet') +
           prometheusOperator: 'kubesphere/prometheus-operator:v' + $.values.common.versions.prometheusOperator,
           prometheusOperatorReloader: 'kubesphere/prometheus-config-reloader:v' + $.values.common.versions.  prometheusOperator,
           kubeRbacProxy: 'kubesphere/kube-rbac-proxy:v' + $.values.common.versions.kubeRbacProxy,
+          thanos: 'kubesphere/thanos:v' + $.values.common.versions.thanos,
         },
       },
       etcd+:: {
