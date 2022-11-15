@@ -18,7 +18,7 @@ local kp0 = (import 'kubesphere.libsonnet') +
     values+:: {
       common+:: {
         namespace: 'kubesphere-monitoring-system',
-        // runbookURLPrefix: 'https://runbooks.prometheus-operator.dev/runbooks/',
+        runbookURLPrefix: 'https://alert-runbooks.kubesphere.io/runbooks/',
         images+:: {
           alertmanager: 'prom/alertmanager:v' + $.values.common.versions.alertmanager,
           kubeStateMetrics: 'kubesphere/kube-state-metrics:v' + $.values.common.versions.kubeStateMetrics,
