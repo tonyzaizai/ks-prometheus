@@ -37,8 +37,9 @@
                 kube_poddisruptionbudget_status_.+,
                 kube_replicationcontroller_.+,
                 kube_node_info,
-                kube_(hpa|replicaset|replicationcontroller)_.+_generation
-                kube_clusterrole_info
+                kube_(hpa|replicaset|replicationcontroller)_.+_generation,
+                kube_clusterrole_info,
+                kube_clusterrolebinding_info
               |||, 
               |||
                 --custom-resource-state-config=spec:
@@ -57,7 +58,7 @@
                             type: Info
                             info: {}
               |||,
-              '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments,clusterroles,users',
+              '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments,clusterroles,clusterrolebindings,users',
               '--metric-annotations-allowlist=clusterroles=[kubesphere.io/creator]',
               '--metric-labels-allowlist=namespaces=[kubesphere.io/workspace]'],
               'kube-state-metrics',
