@@ -37,8 +37,9 @@
                 kube_poddisruptionbudget_status_.+,
                 kube_replicationcontroller_.+,
                 kube_node_info,
-                kube_(hpa|replicaset|replicationcontroller)_.+_generation
-                kube_clusterrole_info
+                kube_(hpa|replicaset|replicationcontroller)_.+_generation,
+                kube_clusterrole_info,
+                kube_clusterrolebinding_info
               |||, 
               |||
                 --custom-resource-state-config=spec:

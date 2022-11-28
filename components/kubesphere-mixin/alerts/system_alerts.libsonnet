@@ -6,7 +6,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
 
     kubeConfigCertExpirationWarningSeconds: 7 * 24 * 3600,
     kubeConfigCertExpirationCriticalSeconds: 1 * 24 * 3600,
-    kubeSphereLicenseExpirationWarningSeconds: 7 * 24 * 3600,
+    kubeSphereLicenseExpirationWarningSeconds: 30 * 24 * 3600,
     kubeSphereLicenseExpirationCriticalSeconds: 1 * 24 * 3600,
   },
 
@@ -24,7 +24,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
               severity: 'warning',
             },
             annotations: {
-              description: '{{ $labels.cluster }} cluster kubeconfig certificate is expiring in less than %s.' % (utils.humanizeSeconds($._config.kubeConfigCertExpirationWarningSeconds)),
+              message: '{{ $labels.cluster }} cluster kubeconfig certificate will be expired in less than %s.' % (utils.humanizeSeconds($._config.kubeConfigCertExpirationWarningSeconds)),
               summary: 'kubeconfig certificate is about to expire.',
             },
           },
@@ -37,7 +37,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
               severity: 'critical',
             },
             annotations: {
-              description: '{{ $labels.cluster }} cluster kubeconfig certificate is expiring in less than %s.' % (utils.humanizeSeconds($._config.kubeConfigCertExpirationCriticalSeconds)),
+              message: '{{ $labels.cluster }} cluster kubeconfig certificate will be expired in less than %s.' % (utils.humanizeSeconds($._config.kubeConfigCertExpirationCriticalSeconds)),
               summary: 'kubeconfig certificate is about to expire.',
             },
           },
@@ -50,7 +50,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
               severity: 'warning',
             },
             annotations: {
-              description: 'KubeSphere license is expiring in less than %s.' % (utils.humanizeSeconds($._config.kubeSphereLicenseExpirationWarningSeconds)),
+              message: 'KubeSphere license will be expired in {{ $value | humanizeDuration }}.',
               summary: 'KubeSphere license is about to expire.',
             },
           },
@@ -63,7 +63,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
               severity: 'critical',
             },
             annotations: {
-              description: 'KubeSphere license is expiring in less than %s.' % (utils.humanizeSeconds($._config.kubeSphereLicenseExpirationCriticalSeconds)),
+              message: 'KubeSphere license will be expired in {{ $value | humanizeDuration }}.',
               summary: 'KubeSphere license is about to expire.',
             },
           },

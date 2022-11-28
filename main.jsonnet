@@ -49,6 +49,7 @@ local kp0 = (import 'kubesphere.libsonnet') +
         ruleSelector: {
           matchLabels: $.values.common.ruleLabels,
         },
+        enableFeatures: ['remote-write-receiver'],
       },
       thanosRuler+:: {
         name: 'kubesphere',

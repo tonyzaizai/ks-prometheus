@@ -23,6 +23,7 @@ local defaults = {
   },
   ruleNamespaceSelector: null,
   ruleSelector: {},
+  evaluationInterval: '1m',
   mixin:: {
     ruleLabels: {},
     _config: {
@@ -83,6 +84,7 @@ function(params) {
       labels: tr._config.commonLabels,
     },
     spec: {
+      evaluationInterval: tr._config.evaluationInterval,
       replicas: tr._config.replicas,
       image: tr._config.image,
       podMetadata: {
