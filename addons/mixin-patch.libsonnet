@@ -48,6 +48,12 @@ local lower(x) =
                         annotations+: {
                             [if runbookURLPattern!='' then 'runbook_url']: runbookURLPattern % lower(rule.alert),
                         },
+                    } + {
+                        labels+: {
+                            // generate rule id by groupname, alertname, severity
+                            'rule_id': std.md5('%s/%s/%s' % [initResource.metadata.name, rule.alert, 
+                                            (if std.objectHas(rule, 'labels') && std.objectHas(rule.labels, 'severity') then rule.labels.severity else '')]),
+                        }
                     }, 
                     group.rules),
             },
