@@ -44,7 +44,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
           {
             alert: 'KubeSphereLicenseExpiration',
             expr: |||
-              kubesphere_enterprise_license_validity_seconds{%(ksControllerManagerSelector)s} <  %(kubeSphereLicenseExpirationWarningSeconds)s
+              0 < kubesphere_enterprise_license_validity_seconds{%(ksControllerManagerSelector)s} < %(kubeSphereLicenseExpirationWarningSeconds)s
             ||| % $._config,
             labels: {
               severity: 'warning',
@@ -57,7 +57,7 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
           {
             alert: 'KubeSphereLicenseExpiration',
             expr: |||
-              kubesphere_enterprise_license_validity_seconds{%(ksControllerManagerSelector)s} <  %(kubeSphereLicenseExpirationCriticalSeconds)s
+              0 < kubesphere_enterprise_license_validity_seconds{%(ksControllerManagerSelector)s} < %(kubeSphereLicenseExpirationCriticalSeconds)s
             ||| % $._config,
             labels: {
               severity: 'critical',
@@ -65,6 +65,19 @@ local utils = import 'kubernetes-mixin/lib/utils.libsonnet';
             annotations: {
               message: 'KubeSphere license will be expired in {{ $value | humanizeDuration }}.',
               summary: 'KubeSphere license is about to expire.',
+            },
+          },
+          {
+            alert: 'KubeSphereLicenseExpired',
+            expr: |||
+              kubesphere_enterprise_license_validity_seconds{%(ksControllerManagerSelector)s} <= 0
+            ||| % $._config,
+            labels: {
+              severity: 'critical',
+            },
+            annotations: {
+              message: 'KubeSphere license has been expired.',
+              summary: 'KubeSphere license has been expired.',
             },
           },
         ],
