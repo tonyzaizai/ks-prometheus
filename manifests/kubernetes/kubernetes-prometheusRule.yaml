@@ -191,6 +191,76 @@ spec:
     - expr: |
         (1 - (node:node_inodes_free: / node:node_inodes_total:))
       record: node:disk_inode_utilization:ratio
+    - expr: |
+        sum (node_cpu_seconds_total{job="kubeedge", mode=~"user|nice|system|iowait|irq|softirq"}) by (cpu, node, job, cluster)
+      record: edge_node_cpu_used_seconds_total
+    - expr: |
+        avg by (node, cluster) (
+          irate(edge_node_cpu_used_seconds_total{job="kubeedge"}[5m]))
+      record: node:edge_node_cpu_utilisation:avg1m
+    - expr: |
+        count by (node, cluster) (sum by (node, cpu, cluster) (
+          node_cpu_seconds_total{job="kubeedge"}
+        ))
+      record: node:edge_node_num_cpu:sum
+    - expr: |
+        sum by (node, cluster) (
+          (node_memory_MemFree_bytes{job="kubeedge"} + node_memory_Cached_bytes{job="kubeedge"} + node_memory_Buffers_bytes{job="kubeedge"} + node_memory_SReclaimable_bytes{job="kubeedge"})
+        )
+      record: node:edge_node_memory_bytes_available:sum
+    - expr: |
+        sum by (node, cluster) (
+          node_memory_MemTotal_bytes{job="kubeedge"}
+        )
+      record: node:edge_node_memory_bytes_total:sum
+    - expr: |
+        1 - (node:edge_node_memory_bytes_available:sum / node:edge_node_memory_bytes_total:sum)
+      record: 'node:edge_node_memory_utilisation:'
+    - expr: |
+        sum by (node, cluster) (
+          (irate(node_network_receive_bytes_total{job="kubeedge",device!~"veth.+"}[5m]) +
+          irate(node_network_transmit_bytes_total{job="kubeedge",device!~"veth.+"}[5m]))
+        )
+      record: node:edge_node_net_utilisation:sum_irate
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_network_transmit_bytes_total{job="kubeedge",device!~"veth.+"}[5m])
+        )
+      record: node:edge_node_net_bytes_transmitted:sum_irate
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_network_receive_bytes_total{job="kubeedge",device!~"veth.+"}[5m])
+        )
+      record: node:edge_node_net_bytes_received:sum_irate
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_disk_reads_completed_total{job="kubeedge"}[5m])
+        )
+      record: node:edge_data_volume_iops_reads:sum
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_disk_writes_completed_total{job="kubeedge"}[5m])
+        )
+      record: node:edge_data_volume_iops_writes:sum
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_disk_read_bytes_total{job="kubeedge"}[5m])
+        )
+      record: node:edge_data_volume_throughput_bytes_read:sum
+    - expr: |
+        sum by (node, cluster) (
+          irate(node_disk_written_bytes_total{job="kubeedge"}[5m])
+        )
+      record: node:edge_data_volume_throughput_bytes_written:sum
+    - expr: |
+        sum by (node, cluster) (node_load1{job="kubeedge"}) / node:edge_node_num_cpu:sum
+      record: node:edge_load1:ratio
+    - expr: |
+        sum by (node, cluster) (node_load5{job="kubeedge"}) / node:edge_node_num_cpu:sum
+      record: node:edge_load5:ratio
+    - expr: |
+        sum by (node, cluster) (node_load15{job="kubeedge"}) / node:edge_node_num_cpu:sum
+      record: node:edge_load15:ratio
   - name: cluster.rules
     rules:
     - expr: |
