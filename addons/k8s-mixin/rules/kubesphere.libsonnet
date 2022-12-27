@@ -9,6 +9,7 @@
     kubeControllerManagerSelector: 'job="kube-controller-manager"',
     prometheusSelector: 'job="prometheus"',
     podLabel: 'pod',
+    edgeSelector: 'job="kubeedge"',
   },
 
   prometheusRules+:: {
@@ -325,6 +326,124 @@
             record: 'node:disk_inode_utilization:ratio',
             expr: |||
               (1 - (node:node_inodes_free: / node:node_inodes_total:))
+            ||| % $._config,
+          },
+          {
+            record: 'edge_node_cpu_used_seconds_total',
+            expr: |||
+              sum (node_cpu_seconds_total{%(edgeSelector)s, mode=~"user|nice|system|iowait|irq|softirq"}) by (cpu, node, job, %(clusterLabel)s)
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_cpu_utilisation:avg1m',
+            expr: |||
+              avg by (node, %(clusterLabel)s) (
+                irate(edge_node_cpu_used_seconds_total{%(edgeSelector)s}[5m]))
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_num_cpu:sum',
+            expr: |||
+              count by (node, %(clusterLabel)s) (sum by (node, cpu, %(clusterLabel)s) (
+                node_cpu_seconds_total{%(edgeSelector)s}
+              ))
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_memory_bytes_available:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                (node_memory_MemFree_bytes{%(edgeSelector)s} + node_memory_Cached_bytes{%(edgeSelector)s} + node_memory_Buffers_bytes{%(edgeSelector)s} + node_memory_SReclaimable_bytes{%(edgeSelector)s})
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_memory_bytes_total:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                node_memory_MemTotal_bytes{%(edgeSelector)s}
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_memory_utilisation:',
+            expr: |||
+              1 - (node:edge_node_memory_bytes_available:sum / node:edge_node_memory_bytes_total:sum)
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_net_utilisation:sum_irate',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                (irate(node_network_receive_bytes_total{%(edgeSelector)s,%(hostNetworkInterfaceSelector)s}[5m]) +
+                irate(node_network_transmit_bytes_total{%(edgeSelector)s,%(hostNetworkInterfaceSelector)s}[5m]))
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_net_bytes_transmitted:sum_irate',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_network_transmit_bytes_total{%(edgeSelector)s,%(hostNetworkInterfaceSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_node_net_bytes_received:sum_irate',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_network_receive_bytes_total{%(edgeSelector)s,%(hostNetworkInterfaceSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_data_volume_iops_reads:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_disk_reads_completed_total{%(edgeSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_data_volume_iops_writes:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_disk_writes_completed_total{%(edgeSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_data_volume_throughput_bytes_read:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_disk_read_bytes_total{%(edgeSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_data_volume_throughput_bytes_written:sum',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (
+                irate(node_disk_written_bytes_total{%(edgeSelector)s}[5m])
+              )
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_load1:ratio',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (node_load1{%(edgeSelector)s}) / node:edge_node_num_cpu:sum
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_load5:ratio',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (node_load5{%(edgeSelector)s}) / node:edge_node_num_cpu:sum
+            ||| % $._config,
+          },
+          {
+            record: 'node:edge_load15:ratio',
+            expr: |||
+              sum by (node, %(clusterLabel)s) (node_load15{%(edgeSelector)s}) / node:edge_node_num_cpu:sum
             ||| % $._config,
           },
         ],
