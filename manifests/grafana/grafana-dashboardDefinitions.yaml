@@ -7965,7 +7965,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "ceil(sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval])))",
+                                  "expr": "ceil(sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval])))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{namespace}}",
@@ -8054,7 +8054,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{namespace}}",
@@ -8315,7 +8315,7 @@ items:
                           ],
                           "targets": [
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -8324,7 +8324,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -8333,7 +8333,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -8342,7 +8342,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -8351,7 +8351,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -8360,7 +8360,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
+                                  "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -10724,7 +10724,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "ceil(sum by(pod) (rate(container_fs_reads_total{container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval])))",
+                                  "expr": "ceil(sum by(pod) (rate(container_fs_reads_total{container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{pod}}",
@@ -10813,7 +10813,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{container!=\"\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{pod}}",
@@ -11074,7 +11074,7 @@ items:
                           ],
                           "targets": [
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -11083,7 +11083,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -11092,7 +11092,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -11101,7 +11101,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -11110,7 +11110,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -11119,7 +11119,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -13963,7 +13963,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "ceil(sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval])))",
+                                  "expr": "ceil(sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval])))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "Reads",
@@ -13971,7 +13971,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "ceil(sum by(pod) (rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval])))",
+                                  "expr": "ceil(sum by(pod) (rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval])))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "Writes",
@@ -14060,7 +14060,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval]))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "Reads",
@@ -14068,7 +14068,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(pod) (rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(pod) (rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\"}[$__rate_interval]))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "Writes",
@@ -14170,7 +14170,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "ceil(sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval])))",
+                                  "expr": "ceil(sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval])))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{container}}",
@@ -14259,7 +14259,7 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "{{container}}",
@@ -14520,7 +14520,7 @@ items:
                           ],
                           "targets": [
                               {
-                                  "expr": "sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -14529,7 +14529,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(container) (rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_writes_total{job=\"kubelet\",device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -14538,7 +14538,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_reads_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -14547,7 +14547,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -14556,7 +14556,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(container) (rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -14565,7 +14565,7 @@ items:
                                   "step": 10
                               },
                               {
-                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", container!=\"\", cluster=\"$cluster\",namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
+                                  "expr": "sum by(container) (rate(container_fs_reads_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[$__rate_interval]))",
                                   "format": "table",
                                   "instant": true,
                                   "intervalFactor": 2,
@@ -19034,7 +19034,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(kubelet_node_name{cluster=\"$cluster\", job=\"kubelet\"})",
+                          "expr": "sum(kubelet_node_name{cluster=\"$cluster\", job=~\"kubelet|kubeedge\"})",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "",
@@ -19091,7 +19091,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(kubelet_running_pods{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}) OR sum(kubelet_running_pod_count{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"})",
+                          "expr": "sum(kubelet_running_pods{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}) OR sum(kubelet_running_pod_count{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"})",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -19148,7 +19148,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(kubelet_running_containers{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}) OR sum(kubelet_running_container_count{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"})",
+                          "expr": "sum(kubelet_running_containers{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}) OR sum(kubelet_running_container_count{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"})",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -19205,7 +19205,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\", state=\"actual_state_of_world\"})",
+                          "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\", state=\"actual_state_of_world\"})",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -19262,7 +19262,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\",state=\"desired_state_of_world\"})",
+                          "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\",state=\"desired_state_of_world\"})",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -19319,7 +19319,7 @@ items:
                   "pluginVersion": "7",
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_node_config_error{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval]))",
+                          "expr": "sum(rate(kubelet_node_config_error{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval]))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -19378,7 +19378,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_runtime_operations_total{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (operation_type, instance)",
+                          "expr": "sum(rate(kubelet_runtime_operations_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (operation_type, instance)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_type}}",
@@ -19473,7 +19473,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_runtime_operations_errors_total{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type)",
+                          "expr": "sum(rate(kubelet_runtime_operations_errors_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_type}}",
@@ -19568,7 +19568,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_runtime_operations_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_runtime_operations_duration_seconds_bucket{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_type}}",
@@ -19663,14 +19663,14 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance)",
+                          "expr": "sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} pod",
                           "refId": "A"
                       },
                       {
-                          "expr": "sum(rate(kubelet_pod_worker_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance)",
+                          "expr": "sum(rate(kubelet_pod_worker_duration_seconds_count{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} worker",
@@ -19765,14 +19765,14 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} pod",
                           "refId": "A"
                       },
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} worker",
@@ -19869,7 +19869,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(storage_operation_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin)",
+                          "expr": "sum(rate(storage_operation_duration_seconds_count{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -19966,7 +19966,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(storage_operation_errors_total{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin)",
+                          "expr": "sum(rate(storage_operation_errors_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -20063,7 +20063,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(storage_operation_duration_seconds_bucket{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(storage_operation_duration_seconds_bucket{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_name, volume_plugin, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -20158,7 +20158,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_cgroup_manager_duration_seconds_count{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type)",
+                          "expr": "sum(rate(kubelet_cgroup_manager_duration_seconds_count{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{operation_type}}",
@@ -20253,7 +20253,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_cgroup_manager_duration_seconds_bucket{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_cgroup_manager_duration_seconds_bucket{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval])) by (instance, operation_type, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{operation_type}}",
@@ -20349,7 +20349,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(kubelet_pleg_relist_duration_seconds_count{cluster=\"$cluster\", job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval])) by (instance)",
+                          "expr": "sum(rate(kubelet_pleg_relist_duration_seconds_count{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval])) by (instance)",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -20444,7 +20444,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_interval_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_interval_seconds_bucket{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -20539,7 +20539,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -20634,28 +20634,28 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))",
+                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "2xx",
                           "refId": "A"
                       },
                       {
-                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))",
+                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "3xx",
                           "refId": "B"
                       },
                       {
-                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))",
+                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "4xx",
                           "refId": "C"
                       },
                       {
-                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))",
+                          "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "5xx",
@@ -20750,7 +20750,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", instance=~\"$instance\"}[$__rate_interval])) by (instance, verb, url, le))",
+                          "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\",job=~\"kubelet|kubeedge\", instance=~\"$instance\"}[$__rate_interval])) by (instance, verb, url, le))",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}} {{verb}} {{url}}",
@@ -20845,7 +20845,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "process_resident_memory_bytes{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}",
+                          "expr": "process_resident_memory_bytes{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -20940,7 +20940,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "rate(process_cpu_seconds_total{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}[$__rate_interval])",
+                          "expr": "rate(process_cpu_seconds_total{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}[$__rate_interval])",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -21035,7 +21035,7 @@ items:
                   "steppedLine": false,
                   "targets": [
                       {
-                          "expr": "go_goroutines{cluster=\"$cluster\",job=\"kubelet\",instance=~\"$instance\"}",
+                          "expr": "go_goroutines{cluster=\"$cluster\",job=~\"kubelet|kubeedge\",instance=~\"$instance\"}",
                           "format": "time_series",
                           "intervalFactor": 2,
                           "legendFormat": "{{instance}}",
@@ -21124,7 +21124,7 @@ items:
                       "options": [
 
                       ],
-                      "query": "label_values(up{job=\"kubelet\"}, cluster)",
+                      "query": "label_values(up{job=~\"kubelet|kubeedge\"}, cluster)",
                       "refresh": 2,
                       "regex": "",
                       "sort": 1,
@@ -21150,7 +21150,7 @@ items:
                       "options": [
 
                       ],
-                      "query": "label_values(up{job=\"kubelet\",cluster=\"$cluster\"}, instance)",
+                      "query": "label_values(up{job=~\"kubelet|kubeedge\",cluster=\"$cluster\"}, instance)",
                       "refresh": 2,
                       "regex": "",
                       "sort": 1,
@@ -27571,14 +27571,14 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "(\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n  -\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n)\n",
+                                  "expr": "(\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n  -\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n)\n",
                                   "format": "time_series",
                                   "intervalFactor": 1,
                                   "legendFormat": "Used Space",
                                   "refId": "A"
                               },
                               {
-                                  "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n",
+                                  "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n",
                                   "format": "time_series",
                                   "intervalFactor": 1,
                                   "legendFormat": "Free Space",
@@ -27690,7 +27690,7 @@ items:
                           "tableColumn": "",
                           "targets": [
                               {
-                                  "expr": "max without(instance,node) (\n(\n  topk(1, kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n  -\n  topk(1, kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n)\n/\ntopk(1, kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
+                                  "expr": "max without(instance,node) (\n(\n  topk(1, kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n  -\n  topk(1, kubelet_volume_stats_available_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n)\n/\ntopk(1, kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "",
@@ -27773,14 +27773,14 @@ items:
                           "steppedLine": false,
                           "targets": [
                               {
-                                  "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n",
+                                  "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n",
                                   "format": "time_series",
                                   "intervalFactor": 1,
                                   "legendFormat": "Used inodes",
                                   "refId": "A"
                               },
                               {
-                                  "expr": "(\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n  -\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n)\n",
+                                  "expr": "(\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n  -\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n)\n",
                                   "format": "time_series",
                                   "intervalFactor": 1,
                                   "legendFormat": " Free inodes",
@@ -27892,7 +27892,7 @@ items:
                           "tableColumn": "",
                           "targets": [
                               {
-                                  "expr": "max without(instance,node) (\ntopk(1, kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n/\ntopk(1, kubelet_volume_stats_inodes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
+                                  "expr": "max without(instance,node) (\ntopk(1, kubelet_volume_stats_inodes_used{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n/\ntopk(1, kubelet_volume_stats_inodes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
                                   "format": "time_series",
                                   "intervalFactor": 2,
                                   "legendFormat": "",
@@ -27962,7 +27962,7 @@ items:
                       "options": [
 
                       ],
-                      "query": "label_values(kubelet_volume_stats_capacity_bytes{job=\"kubelet\"}, cluster)",
+                      "query": "label_values(kubelet_volume_stats_capacity_bytes{job=~\"kubelet|kubeedge\"}, cluster)",
                       "refresh": 2,
                       "regex": "",
                       "sort": 1,
@@ -27988,7 +27988,7 @@ items:
                       "options": [
 
                       ],
-                      "query": "label_values(kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=\"kubelet\"}, namespace)",
+                      "query": "label_values(kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\"}, namespace)",
                       "refresh": 2,
                       "regex": "",
                       "sort": 1,
@@ -28014,7 +28014,7 @@ items:
                       "options": [
 
                       ],
-                      "query": "label_values(kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=\"kubelet\", namespace=\"$namespace\"}, persistentvolumeclaim)",
+                      "query": "label_values(kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\", job=~\"kubelet|kubeedge\", namespace=\"$namespace\"}, persistentvolumeclaim)",
                       "refresh": 2,
                       "regex": "",
                       "sort": 1,

@@ -40,7 +40,7 @@ local kp0 = (import 'kubesphere.libsonnet') +
         mixin+:: {
           _config+:: {
             cadvisorSelector: 'job="kubelet"',
-            kubeletSelector: 'job="kubelet"',
+            kubeletSelector: 'job=~"kubelet|kubeedge"',
             kubeCoreDNSSelector: 'job="coredns"',
           },
         },

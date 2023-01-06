@@ -1,6 +1,6 @@
 {
   _config+:: {
-    kubeletSelector: 'job="kubelet"',
+    kubeletSelector: 'job=~"kubelet|kubeedge"',
     kubeStateMetricsSelector: 'job="kube-state-metrics"',
     nodeExporterSelector: 'job="node-exporter"',
     coreDNSSelector: 'job="coredns"',
